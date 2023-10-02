@@ -2,6 +2,9 @@
 name = "svfplayer"
 version = "0.1.0"
 edition = "2021"
+description = "SVF player using adapters from the jtag-taps crate"
+license = "MIT"
+repository = "https://github.com/srwalter/svfplayer"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
