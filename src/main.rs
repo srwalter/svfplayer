@@ -188,7 +188,7 @@ impl Svf {
 fn run_svf<T: std::ops::DerefMut<Target=dyn Cable>>(sm: &mut JtagSM<T>, contents: &str) -> Result<(),ParseError> {
     let mut svf = Svf::new();
 
-    for cmd in svf::parse_iter(&contents) {
+    for cmd in svf::parse_iter(contents) {
         let cmd = cmd?;
         println!("{}", cmd);
         svf.run_command(cmd, sm);
