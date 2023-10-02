@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 svf = { git = "https://github.com/adamgreig/svf" }
 jtag-taps = { path = "../jtag-taps" }
+clap = { version = "4.4.6", features = ["derive"] }

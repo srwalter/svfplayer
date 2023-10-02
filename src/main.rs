@@ -1,5 +1,7 @@
 use std::iter::zip;
 
+use clap::Parser;
+
 use jtag_taps::cable::Cable;
 use jtag_taps::statemachine::{JtagSM, JtagState, Register};
 use svf::{Command, ParseError, RunClock, RunTestForm, State, TRSTMode};
@@ -195,9 +197,20 @@ fn run_svf<T: std::ops::DerefMut<Target=dyn Cable>>(sm: &mut JtagSM<T>, contents
     Ok(())
 }
 
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    #[arg(short, long)]
+    cable: String,
+    #[arg(short, long)]
+    baud: u32,
+    input: String,
+}
+
 fn main() {
-    let contents = std::fs::read_to_string("example.svf").expect("read");
-    let cable = jtag_taps::cable::new_from_string("easyflash3", 100 << 10).expect("cable");
+    let args = Args::parse();
+    let contents = std::fs::read_to_string(args.input).expect("read");
+    let cable = jtag_taps::cable::new_from_string(&args.cable, args.baud).expect("cable");
     let mut jtag = JtagSM::new(cable);
     run_svf(&mut jtag, &contents).expect("svf");
 }
