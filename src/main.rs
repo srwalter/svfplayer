@@ -72,13 +72,13 @@ impl Svf {
             }
             Command::HIR(pattern) => {
                 if pattern.length != 0 {
-                    eprintln!("TIR not implemented");
+                    eprintln!("HIR not implemented");
                     unimplemented!();
                 }
             }
             Command::HDR(pattern) => {
                 if pattern.length != 0 {
-                    eprintln!("TIR not implemented");
+                    eprintln!("HDR not implemented");
                     unimplemented!();
                 }
             }
@@ -90,7 +90,7 @@ impl Svf {
             }
             Command::TDR(pattern) => {
                 if pattern.length != 0 {
-                    eprintln!("TIR not implemented");
+                    eprintln!("TDR not implemented");
                     unimplemented!();
                 }
             }
@@ -165,7 +165,6 @@ impl Svf {
                         while run_count > 0 {
                             if run_count > 100 {
                                 sm.cable.change_mode(&vec![0; 100], true);
-                                println!("runtest");
                                 run_count -= 100;
                             } else {
                                 sm.cable.change_mode(&vec![0; run_count as usize], true);
