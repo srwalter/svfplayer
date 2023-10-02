@@ -1,7 +1,7 @@
 use std::iter::zip;
 
 use jtag_taps::cable::Cable;
-use jtag_taps::statemachine::{JtagSM, JtagState};
+use jtag_taps::statemachine::{JtagSM, JtagState, Register};
 use svf::{Command, ParseError, RunClock, RunTestForm, State, TRSTMode};
 
 struct Svf {
@@ -111,8 +111,7 @@ impl Svf {
                 for (tdi, mask) in zip(&self.sir_tdi, &self.sir_smask) {
                     buf.push(tdi & mask);
                 }
-                sm.change_mode(JtagState::ShiftIR);
-                let read = sm.cable.read_write_data(&buf, len, true);
+                let read = sm.read_write_reg(Register::Instruction, &buf, len, true);
                 sm.change_mode(self.endir);
 
                 if let Some(tdo) = pattern.tdo {
@@ -140,8 +139,7 @@ impl Svf {
                 for (tdi, mask) in std::iter::zip(self.sdr_tdi.iter(), self.sdr_smask.iter()) {
                     buf.push(tdi & mask);
                 }
-                sm.change_mode(JtagState::ShiftDR);
-                let read = sm.cable.read_write_data(&buf, len, true);
+                let read = sm.read_write_reg(Register::Data, &buf, len, true);
                 sm.change_mode(self.enddr);
 
                 if let Some(tdo) = pattern.tdo {
